@@ -8,7 +8,7 @@ public class Pelota extends Actor {
 	// Propiedades de la pelota
 	private String nombre; // Nombre que recibe la pelota
 	private int velocidadX = -5; // Velocidad de la pelota
-	private int velocidadY = -5;
+	private int velocidadY = 5; // En positivo para que la pelota sea lanzada hacia abajo desde un inicio
 	private int ancho = 15, alto = 15; // Dimensiones de la pelota en pantalla
 	
 	
