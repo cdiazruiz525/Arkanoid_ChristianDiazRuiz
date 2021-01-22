@@ -1,4 +1,4 @@
-package arkanoid_V12;
+package arkanoid_V01;
 
 import java.awt.Graphics;
 
@@ -9,7 +9,6 @@ public abstract class Actor {
 	
 	// Propiedades de actor
 	protected int x, y; // Coordenadas x, y
-	protected int ancho = 30, alto = 30; // Dimensiones del actor en pantalla
 	
 	// Constructores de actor
 	public Actor() {
@@ -46,21 +45,5 @@ public abstract class Actor {
 		this.y = y;
 	}
 
-	public int getAncho() {
-		return ancho;
-	}
-
-	public void setAncho(int ancho) {
-		this.ancho = ancho;
-	}
-
-	public int getAlto() {
-		return alto;
-	}
-
-	public void setAlto(int alto) {
-		this.alto = alto;
-	}
-	
 	
 }

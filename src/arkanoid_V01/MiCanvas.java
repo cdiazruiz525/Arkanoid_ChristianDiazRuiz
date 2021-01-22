@@ -1,4 +1,4 @@
-package arkanoid_V12;
+package arkanoid_V01;
 
 import java.awt.Canvas;
 import java.awt.Color;
@@ -25,7 +25,7 @@ public class MiCanvas extends Canvas {
 	@Override
 	public void paint(Graphics g) {
 		// Aplico el color del f
-		this.setBackground(Color.WHITE);
+		this.setBackground(Color.BLACK);
 		
 		// Pinto cada uno de los actores
 		for (Actor a : this.actores) {
