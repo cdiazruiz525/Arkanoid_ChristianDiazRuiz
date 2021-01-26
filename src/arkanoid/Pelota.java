@@ -1,4 +1,4 @@
-package arkanoid_V01;
+package arkanoid;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -36,17 +36,20 @@ public class Pelota extends Actor {
 
 	@Override
 	public void actua() {
+		// Hago la referencia a la instancia del objeto canvas
+		MiCanvas canvas = Arkanoid.getInstance().getCanvas();
+		
 		// Establezco el movimiento horizontal, eje x
 		this.x += this.velocidadX;
-		// Si la pelota toca el borde, rebota
-		if (this.x < 0 || this.x > 575) {
+		// Si la pelota toca el borde del canvas, rebota
+		if (this.x < 0 || (this.x + this.ancho) > canvas.getWidth()) {
 			this.velocidadX = -this.velocidadX;
 		}
 		
 		// Establezco el movimiento vertical, eje y
 		this.y += this.velocidadY;
-		// Si la pelota toca el borde, rebota
-		if (this.y < 0 || this.y > 755) {
+		// Si la pelota toca el borde del canvas, rebota
+		if (this.y < 0 || (this.y + this.alto) > canvas.getHeight()) {
 			this.velocidadY = -this.velocidadY;
 		}	
 

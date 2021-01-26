@@ -1,4 +1,4 @@
-package arkanoid_V01;
+package arkanoid;
 
 import java.awt.Canvas;
 import java.awt.Color;

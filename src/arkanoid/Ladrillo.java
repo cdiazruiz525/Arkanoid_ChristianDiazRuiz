@@ -1,41 +1,44 @@
-package arkanoid_V01;
+package arkanoid;
 
 import java.awt.Color;
 import java.awt.Graphics;
 
-public class Nave extends Actor {
+public class Ladrillo extends Actor {
 	
-	// Propiedades de la nave
-	private String nombre; // Nombre que recibe la nave
-	private int ancho = 45, alto = 10; // Dimensiones de la nave en pantalla
+	// Propiedades de ladrillo
+	private String nombre; // Nombre que recibe el ladrillo
+	private int ancho = 40, alto = 20; // Dimensiones del ladrillo en pantalla
+	private Color color;
 	
-	public Nave() {
+	// Constructores de ladrillo
+	public Ladrillo() {
 		super();
 	}
 	
 	
-	public Nave(String nombre, int x, int y) {
+	public Ladrillo(String nombre, int x, int y, Color color) {
 		super(x, y);
 		this.nombre = nombre;
+		this.color = color;
 	}
 	
-	// Acciones de nave
-	
+	// Acciones de ladrillo
+
 	@Override
 	public void paint(Graphics g) {
-		// Creo un rectangulo rojo
-		g.setColor(Color.RED); // Selecciono el color de la brocha
+		// Creo un rectangulo blanco
+		g.setColor(color); // Selecciono el color de la brocha
 		g.fillRect(this.x, this.y, this.ancho, this.alto);
 
 	}
 
 	@Override
 	public void actua() {
-		// TODO Auto-generated method stub
+		
 
 	}
 
-	// Getters y Setters
+	// Getters y setters
 	
 	public String getNombre() {
 		return nombre;
