@@ -2,6 +2,8 @@ package arkanoid;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
@@ -25,12 +27,14 @@ public class Arkanoid {
 	// Creo la instancia de Arkanoid
 	private static Arkanoid instance = null;
 	
+	
 	public static Arkanoid getInstance() {
 		if (instance == null) {
 			instance = new Arkanoid();
 		}
 		return instance;
 	}
+	
 	
 	/**
 	 * Metodo que devuelve el Canvas
@@ -41,7 +45,6 @@ public class Arkanoid {
 	}
 
 
-
 	public Arkanoid() {
 		creadorActores(); // Llamo al metodo que crea a los actores
 		
@@ -50,14 +53,33 @@ public class Arkanoid {
 		// Creo el canvas y le paso la lista de actores
 		canvas = new MiCanvas(actores);
 		
+		
 		// Controlador del movimiento del raton
-		canvas.addMouseMotionListener(new MouseAdapter() { // Creo una clase anonima con el adaptador
+		canvas.addMouseMotionListener(new MouseAdapter() { // Clase anonima con adaptador
 			@Override
 			public void mouseMoved(MouseEvent e) {
 				super.mouseMoved(e);
 				jugador.mueve(e.getX());
 			}
 		});
+		
+		
+		// Controlador de los eventos del teclado
+		canvas.addKeyListener(new KeyAdapter() { // Clase anonima con adaptador
+			@Override
+			public void keyPressed(KeyEvent e) {
+				super.keyPressed(e);
+				jugador.keyPressed(e); // Envio el evento e al metodo creado en el objeto jugador de tipo Nave
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				super.keyReleased(e);
+				jugador.keyReleased(e); // Envio el evento e al metodo creado en el objeto jugador de tipo Nave
+				
+			}
+		});
+		
 		
 		// Añado una plantilla (layout) a la ventana
 		ventana.getContentPane().setLayout(new BorderLayout());
@@ -67,6 +89,9 @@ public class Arkanoid {
 		ventana.setBounds(0,0, 600, 800);
 		// Muestro la ventana en pantalla
 		ventana.setVisible(true);
+		// La aplicacion se centra en el canvas
+		canvas.requestFocus();
+		
 		
 		// Controlador del cierre de la ventana
 		ventana.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -78,6 +103,7 @@ public class Arkanoid {
 		});
 	}
 
+	
 	/**
 	 * Metodo main de Arkanoid
 	 * @param args
@@ -86,6 +112,7 @@ public class Arkanoid {
 		
 		Arkanoid.getInstance().bucleJuego();
 	}
+	
 	
 	/*
 	 * Bucle del juego
@@ -116,6 +143,7 @@ public class Arkanoid {
 			
 		} while (true);
 	}
+	
 	
 	/*
 	 * Metodo que crea a cada actor y los introduce dentro la lista actores
