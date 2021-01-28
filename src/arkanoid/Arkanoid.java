@@ -122,7 +122,7 @@ public class Arkanoid {
 		do {
 			long millisAntesDeEscena = new Date().getTime(); // Guardo los millis que habia antes de pintar la escena
 			
-			canvas.repaint(); // Repinto la escena
+			canvas.paintWorld();
 			
 			for (Actor a : actores) { // Recorro la Lista de actores mostrando a cada uno
 				a.actua();
