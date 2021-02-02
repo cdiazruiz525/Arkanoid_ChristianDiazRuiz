@@ -2,6 +2,7 @@ package arkanoid;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Rectangle;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -15,10 +16,14 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 
+
+
 public class Arkanoid {
 
 	private static int FPS = 60;
 	private List<Actor> actores = new ArrayList<Actor>();
+	private List<Actor> actoresParaIncorporar = new ArrayList<Actor>(); // Lista de actores que deben ser añadidos a actores
+	private List<Actor> actoresParaEliminar = new ArrayList<Actor>(); // Lista de actores que deben ser eliminados de actores
 	// Creo el JFrame y el Canvas fuera del main, para que sean accesibles a las demas clases
 	private JFrame ventana = null;
 	private MiCanvas canvas = null;
@@ -49,6 +54,9 @@ public class Arkanoid {
 		creadorActores(); // Llamo al metodo que crea a los actores
 		
 		ventana = new JFrame("Arkanoid"); // Creo la ventana
+		
+		// Doy dimensiones la ventana y le digo las coordenadas donde aparecera
+		ventana.setBounds(0,0, 600, 800);
 		
 		// Creo el canvas y le paso la lista de actores
 		canvas = new MiCanvas(actores);
@@ -85,12 +93,10 @@ public class Arkanoid {
 		ventana.getContentPane().setLayout(new BorderLayout());
 		// Agrego el Canvas (lienzo) al panel
 		ventana.getContentPane().add(canvas, BorderLayout.CENTER);
-		// Doy dimensiones la ventana y le digo las coordenadas donde aparecera
-		ventana.setBounds(0,0, 600, 800);
+		// Consigo que la ventana no se redibuje por los eventos de Windows
+		ventana.setIgnoreRepaint(true);
 		// Muestro la ventana en pantalla
 		ventana.setVisible(true);
-		// La aplicacion se centra en el canvas
-		canvas.requestFocus();
 		
 		
 		// Controlador del cierre de la ventana
@@ -109,7 +115,6 @@ public class Arkanoid {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		
 		Arkanoid.getInstance().bucleJuego();
 	}
 	
@@ -120,6 +125,11 @@ public class Arkanoid {
 	public void bucleJuego() {
 		int millisPorFrame = 1000/FPS; // 1 segundo son 1000 millisegundos, y quiero conseguir 60 imagenes o frames por segundo
 		do {
+			// Bucle que comprubea constantemente si el canvas tiene el focus, en caso de no tenerlo se lo da
+			if (ventana.getFocusOwner() != null && !ventana.getFocusOwner().equals(canvas)) {
+				canvas.requestFocus();
+			}
+			
 			long millisAntesDeEscena = new Date().getTime(); // Guardo los millis que habia antes de pintar la escena
 			
 			canvas.paintWorld();
@@ -127,6 +137,12 @@ public class Arkanoid {
 			for (Actor a : actores) { // Recorro la Lista de actores mostrando a cada uno
 				a.actua();
 			}
+			
+			// Llamo al metodo que detecta si se han dado colisiones entre los actores
+			detectaColisiones();
+
+			// Llamo al metodo que me actualiza la lista de actores
+			actualizaActores();
 			
 			long millisDespuesDeEscena = new Date().getTime(); // Guardo los millis despues de pintar la escena
 			// Con millisDepuesDeEscena menos millisAntesDeEscena, consigo los millis que tarda en procesar una escena
@@ -175,6 +191,64 @@ public class Arkanoid {
 	}
 	
 	
+	/**
+	 * Metodo llamado para añadir nuevos actores
+	 */
+	public void añadeActor(Actor a) {
+		this.actoresParaIncorporar.add(a); // Añado este actor a la lista de actoresParaIncorporar
+	}
+	
+	
+	/**
+	 * Metodo llamado para eliminar actores
+	 */
+	public void eliminaActor(Actor a) {
+		this.actoresParaEliminar.add(a); // Añado este actor a la lista de actoresParaEliminar
+	}
+	
+	
+	/**
+	 * Metodo que actualiza la lista añadiendo y eliminando los actores determinados
+	 */
+	public void actualizaActores() {
+		// Incorporo cada actor a la lista de actores
+		for (Actor a : this.actoresParaIncorporar) {
+			this.actores.add(a);
+		}
+		this.actoresParaIncorporar.clear(); // Limpio la lista de actores para incorporar
+		
+		// Elimino los actores que se deben borrar
+		for (Actor a : this.actoresParaEliminar) {
+			this.actores.remove(a);
+		}
+		this.actoresParaEliminar.clear(); // Limpio la lista de actores a eliminar	
+	}
+	
+	
+	/**
+	 * Detecta si hay colision entre dos actores, y en caso de haber, avisa a los dos
+	 */
+	public void detectaColisiones() {
+		for (Actor actor1 : this.actores) {
+			// Creo un rectangulo de las dimensiones del actor1
+			Rectangle rect1 = new Rectangle(actor1.getX(), actor1.getY(), actor1.getAncho(), actor1.getAlto());
+			// Compruebo un actor con cualquier otro actor
+			for (Actor actor2 : this.actores) {
+				// Evito comparar un actor consigo mismo, ya que provocara una colision
+				if (!actor1.equals(actor2)) {
+					// Creo un rectangulo de las dimensiones del actor2
+					Rectangle rect2 = new Rectangle(actor2.getX(), actor2.getY(), actor2.getAncho(), actor2.getAlto());
+					// Si los dos rectangulos tienen una interseccion, aviso a los actores de dicha colisio
+					if (rect1.intersects(rect2)) {
+						actor1.colisionaCon(actor2); // El actor1 colisiona con el actor2
+						actor2.colisionaCon(actor1); // El actor2 colisiona con el actor1
+					}
+				}
+			}
+		}
+	}
+	
+	
 	/*
 	 * Metodo utilizado en proximas versiones, el cual permitira cerrar el programa al cerrar la ventana
 	 */
@@ -188,5 +262,4 @@ public class Arkanoid {
 		}
 	}
 	
-
 }

@@ -9,7 +9,6 @@ public class Pelota extends Actor {
 	private String nombre; // Nombre que recibe la pelota
 	private int velocidadX = -5; // Velocidad de la pelota
 	private int velocidadY = 5; // En positivo para que la pelota sea lanzada hacia abajo desde un inicio
-	private int ancho = 15, alto = 15; // Dimensiones de la pelota en pantalla
 	
 	
 	// Constructores de Pelota
@@ -22,6 +21,8 @@ public class Pelota extends Actor {
 	public Pelota(String nombre, int x, int y) {
 		super(x, y);
 		this.nombre = nombre;
+		this.ancho = 15;
+		this.alto = 15;
 	}
 
 	// Acciones de Pelota
@@ -86,24 +87,5 @@ public class Pelota extends Actor {
 		this.velocidadY = velocidadY;
 	}
 
-
-	public int getAncho() {
-		return ancho;
-	}
-
-
-	public void setAncho(int ancho) {
-		this.ancho = ancho;
-	}
-
-
-	public int getAlto() {
-		return alto;
-	}
-
-
-	public void setAlto(int alto) {
-		this.alto = alto;
-	}
 	
 }

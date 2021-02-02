@@ -7,7 +7,6 @@ public class Ladrillo extends Actor {
 	
 	// Propiedades de ladrillo
 	private String nombre; // Nombre que recibe el ladrillo
-	private int ancho = 40, alto = 20; // Dimensiones del ladrillo en pantalla
 	private Color color;
 	
 	// Constructores de ladrillo
@@ -20,6 +19,8 @@ public class Ladrillo extends Actor {
 		super(x, y);
 		this.nombre = nombre;
 		this.color = color;
+		this.ancho = 40;
+		this.alto = 20;
 	}
 	
 	// Acciones de ladrillo
@@ -34,12 +35,22 @@ public class Ladrillo extends Actor {
 
 	@Override
 	public void actua() {
-		
-
 	}
 
-	// Getters y setters
+	/**
+	 * Metodo que añade una accion del actor ante la colision
+	 */
+	@Override
+	public void colisionaCon(Actor a) {
+		super.colisionaCon(a);
+		if (a instanceof Pelota) { // Si colisiona con una instancia de la nave
+			Arkanoid.getInstance().eliminaActor(this); // Añado a este actor, a la lista de eliminados
+		}
+	}
 	
+	
+	// Getters y setters
+
 	public String getNombre() {
 		return nombre;
 	}
@@ -49,25 +60,5 @@ public class Ladrillo extends Actor {
 		this.nombre = nombre;
 	}
 
-
-	public int getAncho() {
-		return ancho;
-	}
-
-
-	public void setAncho(int ancho) {
-		this.ancho = ancho;
-	}
-
-
-	public int getAlto() {
-		return alto;
-	}
-
-
-	public void setAlto(int alto) {
-		this.alto = alto;
-	}
-	
 	
 }

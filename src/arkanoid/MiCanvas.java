@@ -30,16 +30,16 @@ public class MiCanvas extends Canvas {
 	 */
 	public void paintWorld() {
 		if (strategy == null) {
-			// El Canvas se dibujará en pantalla con una estrategia de doble búffer
+			// El Canvas se dibujara en pantalla con una estrategia de doble buffer
 			this.createBufferStrategy(2);
-			// Obtengo una referencia a la estrategia de doble búffer.
-			strategy = getBufferStrategy();
+			// Obtengo una referencia a la estrategia de doble buffer
+			strategy = this.getBufferStrategy();
+			// Resuelve un problema de sincronización de memoria de vídeo en Linux
+			Toolkit.getDefaultToolkit().sync();
 		}
-		// Resuelve un problema de sincronización de memoria de vídeo en Linux
-		Toolkit.getDefaultToolkit().sync();
-		// Obtengo el objeto gráfico que me permita pintar en el doble búffer
+		// Obtengo la brocha que me permite pintar en el doble buffer
 		Graphics2D g = (Graphics2D)strategy.getDrawGraphics();
-		// Pinto un rectángulo negro que ocupe toda la escena
+		// Pinto un rectangulo negro que ocupe toda la escena
 		g.setColor(Color.black);
 		g.fillRect(0, 0, this.getWidth(), this.getHeight());
 		
@@ -47,7 +47,8 @@ public class MiCanvas extends Canvas {
 		for (Actor a : this.actores) {
 			a.paint(g);
 		}
-		// Muestro en pantalla el buffer con el nuevo frame creado para el juego
+		
+		// Muestro en la pantalla real lo que he pintado en la virtual 
 		strategy.show();
 	}
 	

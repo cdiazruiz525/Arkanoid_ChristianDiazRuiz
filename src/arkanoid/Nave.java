@@ -20,6 +20,8 @@ public class Nave extends Actor {
 	public Nave(String nombre, int x, int y) {
 		super(x, y);
 		this.nombre = nombre;
+		this.ancho = 45; 
+		this.alto = 10; 
 	}
 	
 	// Acciones de nave
@@ -117,26 +119,6 @@ public class Nave extends Actor {
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
-	}
-
-
-	public int getAncho() {
-		return ancho;
-	}
-
-
-	public void setAncho(int ancho) {
-		this.ancho = ancho;
-	}
-
-
-	public int getAlto() {
-		return alto;
-	}
-
-
-	public void setAlto(int alto) {
-		this.alto = alto;
 	}
 	
 	
