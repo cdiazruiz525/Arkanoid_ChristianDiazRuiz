@@ -1,6 +1,9 @@
 package arkanoid;
 
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.List;
 
 /*
  * Clase abstracta de Actor
@@ -10,6 +13,13 @@ public abstract class Actor {
 	// Propiedades de actor
 	protected int x, y; // Coordenadas x, y
 	protected int ancho = 30, alto = 30; // ancho y alto que ocupa el actor en pantalla
+	protected BufferedImage spriteActual;
+	protected boolean marcadoParaEliminacion = false;
+	// Posibilidad de que el actor sea animado, a trav�s del siguiente array de sprites y las variables
+	// velocidadDeCambioDeSprite y unidadDeTiempo
+	protected List<BufferedImage> spritesDeAnimacion = new ArrayList<BufferedImage>();
+	protected int velocidadDeCambioDeSprite = 0;
+	private int unidadDeTiempo = 0;
 	
 	// Constructores de actor
 	public Actor() {
@@ -24,9 +34,24 @@ public abstract class Actor {
 	}
 
 
-	public abstract void paint(Graphics g); // Metodo que pinta a actor
+	public void paint(Graphics g) {
+		g.drawImage(this.spriteActual, this.x, this.y, null);
+	} // Metodo que pinta a actor
 	
-	public abstract void actua(); // Metodo que permite a cada actor realizar sus acciones
+	
+	public void actua() {
+		// En el caso de que exista un array de sprites el actor actual se tratar� de una animaci�n, para eso llevaremos a cabo los siguientes pasos
+		if (this.spritesDeAnimacion != null && this.spritesDeAnimacion.size() > 0) {
+			unidadDeTiempo++;
+			if (unidadDeTiempo % velocidadDeCambioDeSprite == 0){
+				unidadDeTiempo = 0;
+				int indiceSpriteActual = spritesDeAnimacion.indexOf(this.spriteActual);
+				int indiceSiguienteSprite = (indiceSpriteActual + 1) % spritesDeAnimacion.size();
+				this.spriteActual = spritesDeAnimacion.get(indiceSiguienteSprite);
+			}
+		}
+		
+	} // Metodo que permite a cada actor realizar sus acciones
 	
 	/**
 	 * Metodo implementado en los subtipos, usado para describir una accion de un actor al recibir una colision
@@ -53,6 +78,21 @@ public abstract class Actor {
 		this.y = y;
 	}
 
+	/**
+	 * @return the img
+	 */
+	public BufferedImage getSpriteActual() {
+		return this.spriteActual;
+	}
+
+	/**
+	 * @param img the img to set
+	 */
+	public void setSpriteActual(BufferedImage spriteActual) {
+		this.spriteActual = spriteActual;
+		this.ancho = this.spriteActual.getWidth();
+		this.alto = this.spriteActual.getHeight();
+	}
 
 	public int getAncho() {
 		return ancho;
@@ -73,5 +113,19 @@ public abstract class Actor {
 		this.alto = alto;
 	}
 	
+	/**
+	 * @return the spritesDeAnimacion
+	 */
+	public List<BufferedImage> getSpritesDeAnimacion() {
+		return spritesDeAnimacion;
+	}
+
+	/**
+	 * @param spritesDeAnimacion the spritesDeAnimacion to set
+	 */
+	public void setSpritesDeAnimacion(List<BufferedImage> spritesDeAnimacion) {
+		this.spritesDeAnimacion = spritesDeAnimacion;
+	}
+
 	
 }

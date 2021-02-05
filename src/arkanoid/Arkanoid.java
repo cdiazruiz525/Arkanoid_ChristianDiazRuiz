@@ -16,8 +16,6 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 
-
-
 public class Arkanoid {
 
 	private static int FPS = 60;
@@ -115,6 +113,9 @@ public class Arkanoid {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		ResourcesCache.getInstance().cargarRecursosEnMemoria();
+		
+		
 		Arkanoid.getInstance().bucleJuego();
 	}
 	
@@ -167,11 +168,11 @@ public class Arkanoid {
 	private List<Actor> creadorActores() {
 		
 		// Construyo la pelota
-		Pelota pelota = new Pelota(null, 350, 300);
+		Pelota pelota = new Pelota(350, 300);
 		actores.add(pelota);
 		
 		// Construyo a el jugador
-		jugador = new Nave(null, 270, 700);
+		jugador = new Nave(270, 700);
 		actores.add(jugador);
 		
 		// Creo un array de tipo Color, para darle color a cada fila de ladrillos
@@ -181,7 +182,7 @@ public class Arkanoid {
 		for (int i = 0; i < 6; i++) {
 			int x = 10;
 			for (int j = 0; j < 12; j++) {
-				Ladrillo ladrillo = new Ladrillo(null, x, y, colores[i]);
+				Ladrillo ladrillo = new Ladrillo(x, y, colores[i]);
 				x += 48;
 				actores.add(ladrillo);
 			}
@@ -194,7 +195,7 @@ public class Arkanoid {
 	/**
 	 * Metodo llamado para añadir nuevos actores
 	 */
-	public void añadeActor(Actor a) {
+	public void incorporaActor(Actor a) {
 		this.actoresParaIncorporar.add(a); // Añado este actor a la lista de actoresParaIncorporar
 	}
 	

@@ -6,7 +6,6 @@ import java.awt.Graphics;
 public class Ladrillo extends Actor {
 	
 	// Propiedades de ladrillo
-	private String nombre; // Nombre que recibe el ladrillo
 	private Color color;
 	
 	// Constructores de ladrillo
@@ -15,10 +14,10 @@ public class Ladrillo extends Actor {
 	}
 	
 	
-	public Ladrillo(String nombre, int x, int y, Color color) {
+	public Ladrillo(int x, int y, Color color) {
 		super(x, y);
-		this.nombre = nombre;
 		this.color = color;
+		this.setSpriteActual(ResourcesCache.getInstance().getImagen(ResourcesCache.IMAGEN_LADRILLO));
 		this.ancho = 40;
 		this.alto = 20;
 	}
@@ -44,21 +43,12 @@ public class Ladrillo extends Actor {
 	public void colisionaCon(Actor a) {
 		super.colisionaCon(a);
 		if (a instanceof Pelota) { // Si colisiona con una instancia de la nave
-			Arkanoid.getInstance().eliminaActor(this); // Añado a este actor, a la lista de eliminados
+			Arkanoid.getInstance().eliminaActor(this);
+			ResourcesCache.getInstance().playSonido("Arkanoid-SFX-02.wav");
+			Arkanoid.getInstance().incorporaActor(new Explosion(this.x, this.y));// Añado a este actor, a la lista de eliminados
 		}
 	}
 	
 	
-	// Getters y setters
-
-	public String getNombre() {
-		return nombre;
-	}
-
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
 	
 }

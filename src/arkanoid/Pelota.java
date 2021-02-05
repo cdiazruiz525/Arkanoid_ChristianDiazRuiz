@@ -3,10 +3,10 @@ package arkanoid;
 import java.awt.Color;
 import java.awt.Graphics;
 
+
 public class Pelota extends Actor {
 	
 	// Propiedades de la pelota
-	private String nombre; // Nombre que recibe la pelota
 	private int velocidadX = -5; // Velocidad de la pelota
 	private int velocidadY = 5; // En positivo para que la pelota sea lanzada hacia abajo desde un inicio
 	
@@ -18,11 +18,11 @@ public class Pelota extends Actor {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Pelota(String nombre, int x, int y) {
+	public Pelota(int x, int y) {
 		super(x, y);
-		this.nombre = nombre;
 		this.ancho = 15;
 		this.alto = 15;
+		this.setSpriteActual(ResourcesCache.getInstance().getImagen(ResourcesCache.IMAGEN_PELOTA));
 	}
 
 	// Acciones de Pelota
@@ -45,6 +45,7 @@ public class Pelota extends Actor {
 		// Si la pelota toca el borde del canvas, rebota
 		if (this.x < 0 || (this.x + this.ancho) > canvas.getWidth()) {
 			this.velocidadX = -this.velocidadX;
+			ResourcesCache.getInstance().playSonido("Arkanoid-SFX-01.wav");
 		}
 		
 		// Establezco el movimiento vertical, eje y
@@ -52,21 +53,12 @@ public class Pelota extends Actor {
 		// Si la pelota toca el borde del canvas, rebota
 		if (this.y < 0 || (this.y + this.alto) > canvas.getHeight()) {
 			this.velocidadY = -this.velocidadY;
+			ResourcesCache.getInstance().playSonido("Arkanoid-SFX-01.wav");
 		}	
 
 	}
 
 	// Getters y Setters
-
-	public String getNombre() {
-		return nombre;
-	}
-
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
 
 	public int getVelocidadX() {
 		return velocidadX;

@@ -4,10 +4,10 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 
+
 public class Nave extends Actor {
 	
 	// Propiedades de la nave
-	private String nombre; // Nombre que recibe la nave
 	private int ancho = 45, alto = 10; // Dimensiones de la nave en pantalla
 	private boolean izquierda, derecha; // Variable booleanas que indican la direccion del movimiento de la nave
 	private static int VELOCIDAD = 5; // Velocidad estatica de la nave
@@ -17,22 +17,20 @@ public class Nave extends Actor {
 	}
 	
 	
-	public Nave(String nombre, int x, int y) {
+	public Nave(int x, int y) {
 		super(x, y);
-		this.nombre = nombre;
-		this.ancho = 45; 
-		this.alto = 10; 
+		this.setSpriteActual(ResourcesCache.getInstance().getImagen(ResourcesCache.IMAGEN_NAVE));
 	}
 	
 	// Acciones de nave
 	
-	@Override
-	public void paint(Graphics g) {
-		// Creo un rectangulo rojo
-		g.setColor(Color.RED); // Selecciono el color de la brocha
-		g.fillRect(this.x, this.y, this.ancho, this.alto);
-
-	}
+//	@Override
+//	public void paint(Graphics g) {
+//		// Creo un rectangulo rojo
+//		g.setColor(Color.RED); // Selecciono el color de la brocha
+//		g.fillRect(this.x, this.y, this.ancho, this.alto);
+//
+//	}
 
 	@Override
 	public void actua() {
@@ -107,18 +105,6 @@ public class Nave extends Actor {
 			this.derecha = false;
 			break;
 		}
-	}
-	
-
-	// Getters y Setters
-	
-	public String getNombre() {
-		return nombre;
-	}
-
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
 	}
 	
 	
